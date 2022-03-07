@@ -57,15 +57,17 @@ void mouseEventExample()
 	g_rectangle = cv::Rect(-1, -1, 0, 0);
 	cv::Mat image(600, 800, CV_8UC3);
 	cv::Mat tempImage;
-	image.copyTo(tempImage);
 	image = cv::Scalar::all(0);
 	cv::namedWindow(WINDOW_NAME, cv::WINDOW_AUTOSIZE);
+	// 注：此处传入回调的参数为原图像。
 	cv::setMouseCallback(WINDOW_NAME, onMouseEvent, (void*)(&image));
 	for (;;)
 	{
+		// 拷贝原图到临时变量，在鼠标左键弹起消息发出前不改变原图。
 		image.copyTo(tempImage);
 		if (g_bOnDraw)
 		{
+			// 在临时图像上绘制当前矩形，此时鼠标未松开。
 			drawRect(tempImage, g_rectangle);
 		}
 		cv::imshow(WINDOW_NAME, tempImage);
